@@ -4,7 +4,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-#define PID_FILE "echod.pid"
+#define PID_FILE "/tmp/echod.pid"
 
 /*
 	* Create the pid file
@@ -74,6 +74,12 @@ pid_t create_daemon(const char *bin)
 				sid = setsid();
 				if (sid < 0) {
 								syslog(LOG_ERR, "Could not create process group");
+								exit(EXIT_FAILURE);
+				}
+
+				/* Change the current working directory */
+				if ((chdir("/")) < 0) {
+								syslog(LOG_ERR, "Could not change working directory\n");
 								exit(EXIT_FAILURE);
 				}
 
