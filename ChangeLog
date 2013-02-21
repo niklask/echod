@@ -1,3 +1,8 @@
+2013-02-21 Niklas Karlsson <niklas.karlsson.phd@gmail.com>
+
+	* New default pid file location (/tmp/echod.pid)
+	* Changing dir to '/' after successful fork
+	
 2013-02-08 Niklas Karlsson <niklas.karlsson.phd@gmail.com>
 
 	* Project starts. Initial git repository created with bare
