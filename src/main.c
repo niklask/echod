@@ -40,7 +40,7 @@ void signal_handler(int signum)
 				psignal(signum, "caught signal");
 
 				if (signum == SIGTERM) {
-								syslog(LOG_NOTICE, "Daemon caugt a SIGTERM, exiting");
+								syslog(LOG_NOTICE, "Daemon caught a SIGTERM, exiting");
 
 								/* Close syslog facility */
 								closelog();
@@ -170,6 +170,7 @@ int main(int argc, char *argv[])
 																				client_sock = accept(server_sock, 
 																																									(struct sockaddr *)&client_addr, 
 																																									&len);
+
 																				if (client_sock < 0) {
 																								syslog(LOG_ERR, "'accept' error");
 																				}
@@ -183,13 +184,16 @@ int main(int argc, char *argv[])
 																				memset(buffer, 0, MAXMSG);
 																				/* Data arriving on already connected socket */
 																				nbytes = read(i, buffer, MAXMSG);
+																				syslog(LOG_NOTICE, "Read %d bytes", nbytes);
 																				if (nbytes < 0) {
 																								syslog(LOG_ERR, "Error reading from socket");
 																				} else if (nbytes == 0) {
+																								syslog(LOG_NOTICE, "Socket closed");
 																								close(i);
 																								FD_CLR(i, &active_fd_set);																								
 																				} else {
-																								write(i, buffer, strlen(buffer));
+																								syslog(LOG_NOTICE, "Received %s", buffer);
+																								write(i, buffer, nbytes);
 																				}
 																}
 												}
